@@ -53,10 +53,19 @@ const SignIn = () => {
           router.push("/");
         },
         onError: (error) => {
-          if (error.error.code === "USER_ALREADY_EXISTS") {
-            toast.error("Email ja cadastrado");
-            form.setError("email", {
-              message: "Email ja cadastrado",
+          if (error.error.code === "USER_NOT_FOUND") {
+            toast.error("Email nao cadastrado");
+            return form.setError("email", {
+              message: "Email nao cadastrado",
+            });
+          }
+          if (error.error.code === "INVALID_EMAIL_OR_PASSWORD") {
+            toast.error("Email ou senha incorretos");
+            form.setError("password", {
+              message: "Email ou senha incorretos",
+            });
+            return form.setError("email", {
+              message: "Email ou senha incorretos",
             });
           }
           toast.error(error.error.message);
