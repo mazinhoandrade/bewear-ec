@@ -17,6 +17,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import CartItem from "./cart-item";
 //import CartItem from "./cart-item";
 
 export const Cart = () => {
@@ -41,18 +42,17 @@ export const Cart = () => {
             <ScrollArea className="h-full">
               <div className="flex h-full flex-col gap-8">
                 {cart?.items.map((item) => (
-                  <p key={item.id}>{item.productVariant.name}</p>
-                  //   <CartItem
-                  //     key={item.id}
-                  //     id={item.id}
-                  //     productName={item.productVariant.product.name}
-                  //     productVariantName={item.productVariant.name}
-                  //     productVariantImageUrl={item.productVariant.imageUrl}
-                  //     productVariantPriceInCents={
-                  //       item.productVariant.priceInCents
-                  //     }
-                  //     quantity={item.quantity}
-                  //   />
+                  <CartItem
+                    key={item.id}
+                    id={item.id}
+                    productName={item.productVariant.product.name}
+                    productVariantName={item.productVariant.name}
+                    productVariantImageUrl={item.productVariant.imageUrl}
+                    productVariantPriceInCents={
+                      item.productVariant.priceInCents
+                    }
+                    quantity={item.quantity}
+                  />
                 ))}
               </div>
             </ScrollArea>
