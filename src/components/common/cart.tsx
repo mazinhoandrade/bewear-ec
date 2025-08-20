@@ -50,6 +50,13 @@ export const Cart = () => {
                     quantity={item.quantity}
                   />
                 ))}
+                {cart?.items.length === 0 && (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Seu carrinho está vazio :(
+                    </p>
+                  </div>
+                )}
               </div>
             </ScrollArea>
           </div>
