@@ -23,12 +23,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { shippingAddressTable } from "@/db/schema";
-//import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
-//import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
+import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
+import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
 import { useCart } from "@/hooks/queries/use-cart";
-//import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
+import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
 
-//import { formatAddress } from "../../helpers/address";
+import { formatAddress } from "../../helpers/address";
 
 const formSchema = z.object({
   email: z.email("E-mail inválido"),
@@ -59,11 +59,11 @@ const Addresses = ({
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     defaultShippingAddressId || null
   );
-  //   const createShippingAddressMutation = useCreateShippingAddress();
-  //   const updateCartShippingAddressMutation = useUpdateCartShippingAddress();
-  //   const { data: addresses, isLoading } = useUserAddresses({
-  //     initialData: shippingAddresses,
-  //   });
+  const createShippingAddressMutation = useCreateShippingAddress();
+  const updateCartShippingAddressMutation = useUpdateCartShippingAddress();
+  const { data: addresses, isLoading } = useUserAddresses({
+    initialData: shippingAddresses,
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -83,34 +83,34 @@ const Addresses = ({
   });
 
   const onSubmit = async (values: FormValues) => {
-    // try {
-    //   const newAddress =
-    //     await createShippingAddressMutation.mutateAsync(values);
-    //   toast.success("Endereço criado com sucesso!");
-    //   form.reset();
-    //   setSelectedAddress(newAddress.id);
-    //   await updateCartShippingAddressMutation.mutateAsync({
-    //     shippingAddressId: newAddress.id,
-    //   });
-    //   toast.success("Endereço vinculado ao carrinho!");
-    // } catch (error) {
-    //   toast.error("Erro ao criar endereço. Tente novamente.");
-    //   console.error(error);
-    // }
+    try {
+      const newAddress =
+        await createShippingAddressMutation.mutateAsync(values);
+      toast.success("Endereço criado com sucesso!");
+      form.reset();
+      setSelectedAddress(newAddress.id);
+      await updateCartShippingAddressMutation.mutateAsync({
+        shippingAddressId: newAddress.id,
+      });
+      toast.success("Endereço vinculado ao carrinho!");
+    } catch (error) {
+      toast.error("Erro ao criar endereço. Tente novamente.");
+      console.error(error);
+    }
   };
 
   const handleGoToPayment = async () => {
-    // if (!selectedAddress || selectedAddress === "add_new") return;
-    // try {
-    //   await updateCartShippingAddressMutation.mutateAsync({
-    //     shippingAddressId: selectedAddress,
-    //   });
-    //   toast.success("Endereço selecionado para entrega!");
-    //   router.push("/cart/confirmation");
-    // } catch (error) {
-    //   toast.error("Erro ao selecionar endereço. Tente novamente.");
-    //   console.error(error);
-    // }
+    if (!selectedAddress || selectedAddress === "add_new") return;
+    try {
+      await updateCartShippingAddressMutation.mutateAsync({
+        shippingAddressId: selectedAddress,
+      });
+      toast.success("Endereço selecionado para entrega!");
+      router.push("/cart/confirmation");
+    } catch (error) {
+      toast.error("Erro ao selecionar endereço. Tente novamente.");
+      console.error(error);
+    }
   };
 
   return (
@@ -119,7 +119,7 @@ const Addresses = ({
         <CardTitle>Identificação</CardTitle>
       </CardHeader>
       <CardContent>
-        {!true ? (
+        {isLoading ? (
           <div className="py-4 text-center">
             <p>Carregando endereços...</p>
           </div>
@@ -128,15 +128,15 @@ const Addresses = ({
             value={selectedAddress}
             onValueChange={setSelectedAddress}
           >
-            {/* {addresses?.length === 0 && (
+            {addresses?.length === 0 && (
               <div className="py-4 text-center">
                 <p className="text-muted-foreground">
                   Você ainda não possui endereços cadastrados.
                 </p>
               </div>
-            )} */}
+            )}
 
-            {/* {addresses?.map((address) => (
+            {addresses?.map((address) => (
               <Card key={address.id}>
                 <CardContent>
                   <div className="flex items-start space-x-2">
@@ -144,14 +144,15 @@ const Addresses = ({
                     <div className="flex-1">
                       <Label htmlFor={address.id} className="cursor-pointer">
                         <div>
-                          <p className="text-sm">{formatAddress(address)}</p>
+                          <p>{address.country}</p>
+                          {/* <p className="text-sm">{formatAddress(address)}</p> */}
                         </div>
                       </Label>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-            ))} */}
+            ))}
 
             <Card>
               <CardContent>
@@ -164,7 +165,7 @@ const Addresses = ({
           </RadioGroup>
         )}
 
-        {/* {selectedAddress && selectedAddress !== "add_new" && (
+        {selectedAddress && selectedAddress !== "add_new" && (
           <div className="mt-4">
             <Button
               onClick={handleGoToPayment}
@@ -176,7 +177,7 @@ const Addresses = ({
                 : "Ir para pagamento"}
             </Button>
           </div>
-        )} */}
+        )}
 
         {selectedAddress === "add_new" && (
           <Form {...form}>
@@ -361,7 +362,7 @@ const Addresses = ({
                 />
               </div>
 
-              {/* <Button
+              <Button
                 type="submit"
                 className="w-full"
                 disabled={
@@ -373,7 +374,7 @@ const Addresses = ({
                 updateCartShippingAddressMutation.isPending
                   ? "Salvando..."
                   : "Salvar endereço"}
-              </Button> */}
+              </Button>
             </form>
           </Form>
         )}
