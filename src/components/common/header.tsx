@@ -107,6 +107,7 @@ const Header = () => {
                         <LogOutIcon />
                       </Button>
                     </div>
+                    <Link href="/my-orders">Meus pedidos</Link>
                   </>
                 ) : (
                   <div className="flex items-center justify-between">
