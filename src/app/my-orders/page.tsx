@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -29,6 +29,7 @@ const MyOrdersPage = async () => {
         },
       },
     },
+    orderBy: [desc(orderTable.createdAt)],
   });
 
   return (

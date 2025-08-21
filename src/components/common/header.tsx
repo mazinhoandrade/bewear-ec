@@ -1,5 +1,12 @@
 "use client";
-import { LogInIcon, LogOutIcon, MenuIcon, SearchIcon } from "lucide-react";
+import {
+  LogInIcon,
+  LogOutIcon,
+  MenuIcon,
+  PanelRightClose,
+  SearchIcon,
+  ShoppingBasketIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -47,8 +54,13 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <Link className="flex items-center gap-2" href="/my-orders">
+                    <ShoppingBasketIcon /> Meus Pedidos
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => authClient.signOut()}>
-                  Sair
+                  <PanelRightClose /> Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -107,7 +119,6 @@ const Header = () => {
                         <LogOutIcon />
                       </Button>
                     </div>
-                    <Link href="/my-orders">Meus pedidos</Link>
                   </>
                 ) : (
                   <div className="flex items-center justify-between">
