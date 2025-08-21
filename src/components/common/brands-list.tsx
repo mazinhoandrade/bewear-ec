@@ -47,14 +47,14 @@ const brands = [
 const BrandsList = ({ title }: ProductListProps) => {
   return (
     <div className="space-y-6">
-      <h3 className="px-5 font-semibold">{title}</h3>
+      <h3 className="px-5 lg:text-2xl font-semibold">{title}</h3>
       <div className="flex w-full gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
         {brands.map((brand) => (
           <div key={brand.id} className="flex flex-col items-center gap-2">
             <Button
               variant="outline"
               size="icon"
-              className="pointer-events-none flex h-20 w-20 items-center justify-center rounded-3xl"
+              className="pointer-events-none flex h-20 w-20 lg:h-45 lg:w-45 items-center justify-center rounded-3xl"
             >
               <Image
                 src={brand.imageUrl}
@@ -63,7 +63,9 @@ const BrandsList = ({ title }: ProductListProps) => {
                 height={35}
               />
             </Button>
-            <p className="text-[12px] font-semibold">{brand.name}</p>
+            <p className="text-[12px] lg:text-[16px] font-semibold">
+              {brand.name}
+            </p>
           </div>
         ))}
       </div>
