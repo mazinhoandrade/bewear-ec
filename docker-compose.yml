@@ -1,0 +1,14 @@
+services:
+  stripe:
+    image: stripe/stripe-cli:latest # A caixinha vem com o Stripe CLI já instalado
+    container_name: stripe-cli # Nome da caixinha
+    volumes:
+      - stripe_cli_config:/root/.config/stripe # Guardar o login pra não precisar refazer
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Faz a caixinha falar com seu PC
+    stdin_open: true
+    tty: true
+    entrypoint: ["stripe"]
+
+volumes:
+  stripe_cli_config:
