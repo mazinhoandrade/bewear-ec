@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   NavigationMenu,
@@ -17,6 +17,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { getCategories } from "@/data/categories/get";
+import { categoryTable } from "@/db/schema";
 import { authClient } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -27,6 +29,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -38,6 +41,16 @@ import { Cart } from "./cart";
 
 const Header = () => {
   const { data: session } = authClient.useSession();
+  const [categories, setCategories] = useState<
+    (typeof categoryTable.$inferSelect)[]
+  >([]);
+  const getCategorys = async () => {
+    const categorys = await getCategories();
+    setCategories(categorys);
+  };
+  useEffect(() => {
+    getCategorys();
+  }, []);
   return (
     <>
       <header className="flex items-center justify-between p-5">
@@ -115,6 +128,13 @@ const Header = () => {
                         <LogOutIcon />
                       </Button>
                     </div>
+                    <Separator />
+                    <Link
+                      className="flex items-center gap-2 my-2"
+                      href="/my-orders"
+                    >
+                      <ShoppingBasketIcon /> Meus Pedidos
+                    </Link>
                   </>
                 ) : (
                   <div className="flex items-center justify-between">
@@ -137,37 +157,15 @@ const Header = () => {
       <div className="hidden lg:flex flex-col w-full items-center my-5 ">
         <NavigationMenu viewport={false}>
           <NavigationMenuList className="gap-28 font-semibold">
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Camisetas</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Bermudas & Shorts</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Calças</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Jaquetas & Moletons</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Tenis</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/">Acessórios</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {categories.map((category) => (
+              <NavigationMenuItem key={category.id}>
+                <NavigationMenuLink asChild>
+                  <Link href={`/category/${category.slug}`}>
+                    {category.name}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
       </div>
