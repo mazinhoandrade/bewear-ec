@@ -46,32 +46,38 @@ const ConfirmationPage = async () => {
   return (
     <div>
       <Header />
-      <div className="space-y-4 px-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>Identificação</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <Card>
-              <CardContent>
-                <p className="text-sm">{formatAddress(cart.shippingAddress)}</p>
-              </CardContent>
-            </Card>
-            <FinishOrderButton />
-          </CardContent>
-        </Card>
-        <CartSummary
-          subtotalInCents={cartTotalInCents}
-          totalInCents={cartTotalInCents}
-          products={cart.items.map((item) => ({
-            id: item.productVariant.id,
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.productVariant.priceInCents,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
+      <div className="space-y-4 px-5 flex flex-col lg:flex-row lg:gap-4">
+        <div className="lg:w-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>Identificação</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <Card>
+                <CardContent>
+                  <p className="text-sm">
+                    {formatAddress(cart.shippingAddress)}
+                  </p>
+                </CardContent>
+              </Card>
+              <FinishOrderButton />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="lg:w-2/3">
+          <CartSummary
+            subtotalInCents={cartTotalInCents}
+            totalInCents={cartTotalInCents}
+            products={cart.items.map((item) => ({
+              id: item.productVariant.id,
+              name: item.productVariant.product.name,
+              variantName: item.productVariant.name,
+              quantity: item.quantity,
+              priceInCents: item.productVariant.priceInCents,
+              imageUrl: item.productVariant.imageUrl,
+            }))}
+          />
+        </div>
       </div>
       <div className="mt-12">
         <Footer />
