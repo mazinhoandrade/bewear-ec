@@ -9,8 +9,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-import CartItem from "@/components/common/cart-item";
-
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),

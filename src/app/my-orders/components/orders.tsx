@@ -39,8 +39,13 @@ const Orders = ({ orders }: OrdersProps) => {
           <CardContent>
             <Accordion type="single" collapsible key={order.id}>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="cursor-pointer decoration-accent">
+                <AccordionTrigger className="cursor-pointer decoration-accent text-gray-500">
+                  <div className="hidden lg:flex flex-col">
+                    <p className="text-black font-semibold">Numero Do Pedido</p>
+                    #{order.id.slice(0, 4)}
+                  </div>
                   <div className="flex flex-col gap-1">
+                    <p className="text-black font-semibold">Status</p>
                     {order.status === "paid" && (
                       <Badge variant="default">Pago</Badge>
                     )}
@@ -50,17 +55,23 @@ const Orders = ({ orders }: OrdersProps) => {
                     {order.status === "canceled" && (
                       <Badge variant="destructive">Cancelado</Badge>
                     )}
-                    <p>
-                      Pedido feito em{" "}
-                      {new Date(order.createdAt).toLocaleDateString("pt-BR")} às{" "}
-                      {new Date(order.createdAt).toLocaleTimeString("pt-BR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                  </div>
+                  <div>
+                    <p className="text-black font-semibold">Data</p>
+                    {new Date(order.createdAt).toLocaleDateString(
+                      "pt-BR"
+                    )} às{" "}
+                    {new Date(order.createdAt).toLocaleTimeString("pt-BR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                  <div className="hidden lg:flex flex-col">
+                    <p className="text-black font-semibold">Pagamento</p> Cartão
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
+                  <Separator className="my-4" />
                   {order.items.map((product) => (
                     <div
                       className="flex items-center justify-between"

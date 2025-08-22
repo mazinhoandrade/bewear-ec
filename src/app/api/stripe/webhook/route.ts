@@ -31,6 +31,17 @@ export const POST = async (req: Request) => {
       .update(orderTable)
       .set({ status: "paid" })
       .where(eq(orderTable.id, orderId));
+  } else {
+    console.log("Checkout session failed");
+    const session = event.data.object as Stripe.Checkout.Session;
+    const orderId = session.metadata?.orderId;
+    if (!orderId) {
+      return new Response("Missing order id", { status: 400 });
+    }
+    await db
+      .update(orderTable)
+      .set({ status: "canceled" })
+      .where(eq(orderTable.id, orderId));
   }
 
   return NextResponse.json({ received: true });
