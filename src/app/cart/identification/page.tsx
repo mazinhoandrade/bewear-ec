@@ -1,45 +1,21 @@
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { getCart } from "@/actions/get-cart";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
-import { db } from "@/db";
-import { shippingAddressTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
+import { getShippingAddresses } from "@/data/cart/get";
 
 import CartSummary from "../components/cart-summary";
 import Status from "../components/status";
 import Addresses from "./components/addresses";
 
 const IdentificationPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session?.user.id) {
-    redirect("/");
-  }
-  const cart = await db.query.cartTable.findFirst({
-    where: (cart, { eq }) => eq(cart.userId, session.user.id),
-    with: {
-      shippingAddress: true,
-      items: {
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const cart = await getCart();
   if (!cart || cart?.items.length === 0) {
     redirect("/");
   }
-  const shippingAddresses = await db.query.shippingAddressTable.findMany({
-    where: eq(shippingAddressTable.userId, session.user.id),
-  });
+  const shippingAddresses = await getShippingAddresses();
+
   const cartTotalInCents = cart.items.reduce(
     (acc, item) => acc + item.productVariant.priceInCents * item.quantity,
     0
@@ -52,7 +28,7 @@ const IdentificationPage = async () => {
         <div className="lg:w-full">
           <Addresses
             shippingAddresses={shippingAddresses}
-            defaultShippingAddressId={cart.shippingAddress?.id || null}
+            defaultShippingAddressId={cart.shippingAddressId || null}
           />
         </div>
         <div className="lg:w-2/3">

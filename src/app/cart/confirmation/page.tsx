@@ -1,11 +1,9 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { db } from "@/db";
-import { auth } from "@/lib/auth";
+import { getCart } from "@/data/cart/get";
 
 import CartSummary from "../components/cart-summary";
 import Status from "../components/status";
@@ -13,27 +11,7 @@ import { formatAddress } from "../helpers/address";
 import FinishOrderButton from "./components/finish-order-button";
 
 const ConfirmationPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session?.user.id) {
-    redirect("/");
-  }
-  const cart = await db.query.cartTable.findFirst({
-    where: (cart, { eq }) => eq(cart.userId, session.user.id),
-    with: {
-      shippingAddress: true,
-      items: {
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const cart = await getCart();
   if (!cart || cart?.items.length === 0) {
     redirect("/");
   }
