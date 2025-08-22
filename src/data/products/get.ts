@@ -21,16 +21,18 @@ export const getProductsWithVariants = async () => {
     with: {
       variants: true,
     },
+    limit: 8,
   });
   return products;
 };
 
-export const getNewlyCreatedProducts = async () => {
+export const getNewlyCreatedProducts = async (limit = 8) => {
   const products = await db.query.productTable.findMany({
     orderBy: [desc(productTable.createdAt)],
     with: {
       variants: true,
     },
+    limit,
   });
   return products;
 };
