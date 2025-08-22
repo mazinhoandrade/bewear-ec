@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-export async function getUserAddresses() {
+export const getUserAddresses = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -28,4 +28,4 @@ export async function getUserAddresses() {
     console.error("Erro ao buscar endereços:", error);
     throw new Error("Erro ao buscar endereços");
   }
-}
+};
