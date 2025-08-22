@@ -1,5 +1,4 @@
 import { eq } from "drizzle-orm";
-import { Check, CircleCheck } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -10,6 +9,7 @@ import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/cart-summary";
+import Status from "../components/status";
 import Addresses from "./components/addresses";
 
 const IdentificationPage = async () => {
@@ -47,32 +47,7 @@ const IdentificationPage = async () => {
   return (
     <div>
       <Header />
-      <div className="flex items-center justify-center my-5 text-shadow-zinc-500 font-semibold gap-2">
-        <p className="flex items-center gap-2 ">
-          <div className="bg-green-500 rounded-full w-8 h-8 font-bold flex items-center justify-center">
-            <Check size={16} color="white" />
-          </div>
-          Carrinho
-          <div className="text-muted-foreground ">
-            <hr className="border-t-2 border-green-500 my-5  w-32" />
-          </div>
-        </p>
-        <p className="flex items-center gap-2 ">
-          <div className="border-2 border-green-500 rounded-full w-8 h-8 font-bold flex items-center justify-center text-green-500">
-            2
-          </div>
-          Identificação
-          <div className="text-muted-foreground ">
-            <hr className="border-t-2 border-gray-300 my-5  w-32" />
-          </div>
-        </p>
-        <p className="flex items-center gap-2 ">
-          <div className="border-2 border-gray-300 rounded-full w-8 h-8 font-bold flex items-center justify-center">
-            3
-          </div>
-          Pagamento
-        </p>
-      </div>
+      <Status status="identification" />
       <div className="space-y-4 flex flex-col px-5 lg:flex-row lg:gap-4">
         <div className="lg:w-full">
           <Addresses

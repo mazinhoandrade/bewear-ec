@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/cart-summary";
+import Status from "../components/status";
 import { formatAddress } from "../helpers/address";
 import FinishOrderButton from "./components/finish-order-button";
 
@@ -46,6 +47,7 @@ const ConfirmationPage = async () => {
   return (
     <div>
       <Header />
+      <Status status="confirmation" />
       <div className="space-y-4 px-5 flex flex-col lg:flex-row lg:gap-4">
         <div className="lg:w-full">
           <Card>
