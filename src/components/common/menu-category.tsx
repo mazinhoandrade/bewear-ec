@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 import {
@@ -18,7 +16,7 @@ const MenuCategory = ({ categories }: Props) => {
     <div className="hidden lg:flex flex-col w-full items-center my-5 ">
       <NavigationMenu viewport={false}>
         <NavigationMenuList className="gap-28 font-semibold">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <NavigationMenuItem key={category.id}>
               <NavigationMenuLink asChild>
                 <Link href={`/category/${category.slug}`}>{category.name}</Link>
