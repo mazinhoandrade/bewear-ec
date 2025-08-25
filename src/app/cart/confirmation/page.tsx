@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
 
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCart } from "@/data/cart/get";
 
@@ -24,7 +22,6 @@ const ConfirmationPage = async () => {
   }
   return (
     <div>
-      <Header />
       <Status status="confirmation" />
       <div className="space-y-4 px-5 flex flex-col lg:flex-row lg:gap-4">
         <div className="lg:w-full">
@@ -58,9 +55,6 @@ const ConfirmationPage = async () => {
             }))}
           />
         </div>
-      </div>
-      <div className="mt-12">
-        <Footer />
       </div>
     </div>
   );

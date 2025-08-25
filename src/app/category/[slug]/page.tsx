@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import React from "react";
 
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import ProductItem from "@/components/common/product-item";
 import { getCategory } from "@/data/categories/get";
 import { getLikelyProducts } from "@/data/products/get";
@@ -18,7 +16,6 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
   const products = await getLikelyProducts(category.id);
   return (
     <>
-      <Header />
       <div className="px-5 space-y-6">
         <h2 className="font-semibold text-xl">{category?.name}</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -27,7 +24,6 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
           ))}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

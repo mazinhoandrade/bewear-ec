@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { getLikelyProducts, getProductVariant } from "@/data/products/get";
 import { formatCentsToBRL } from "@/helpers/money";
@@ -26,7 +24,6 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
 
   return (
     <>
-      <Header />
       <div className="flex flex-col space-y-6">
         <div className="flex flex-col lg:flex-row lg:px-5">
           <Image
@@ -66,7 +63,6 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
           </div>
         </div>
         <ProductList title="Talvez você goste" products={likelyProducts} />
-        <Footer />
       </div>
     </>
   );

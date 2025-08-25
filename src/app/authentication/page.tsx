@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
-import Header from "@/components/common/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth";
 
@@ -17,8 +16,6 @@ const Authentication = async () => {
   }
   return (
     <>
-      <Header />
-
       <div className="flex w-full max-w-md flex-col gap-6 p-5 m-auto ">
         <Tabs defaultValue="sign-in">
           <TabsList>

@@ -2,8 +2,6 @@ import Image from "next/image";
 
 import BrandsList from "@/components/common/brands-list";
 import CategorySelector from "@/components/common/category-selector";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { getCategories } from "@/data/categories/get";
 import {
@@ -20,8 +18,6 @@ const Home = async () => {
 
   return (
     <>
-      <Header />
-
       <div className="space-y-6">
         <div className="px-5">
           <Image
@@ -97,7 +93,6 @@ const Home = async () => {
         </div>
 
         <ProductList title="Novos Produtos" products={newlyCreatedProducts} />
-        <Footer />
       </div>
     </>
   );

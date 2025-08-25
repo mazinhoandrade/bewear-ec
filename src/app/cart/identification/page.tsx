@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 
 import { getCart } from "@/actions/get-cart";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { getShippingAddresses } from "@/data/cart/get";
 
 import CartSummary from "../components/cart-summary";
@@ -22,7 +20,6 @@ const IdentificationPage = async () => {
   );
   return (
     <div>
-      <Header />
       <Status status="identification" />
       <div className="space-y-4 flex flex-col px-5 lg:flex-row lg:gap-4">
         <div className="lg:w-full">
@@ -45,9 +42,6 @@ const IdentificationPage = async () => {
             }))}
           />
         </div>
-      </div>
-      <div className="mt-12">
-        <Footer />
       </div>
     </div>
   );

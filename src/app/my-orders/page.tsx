@@ -1,5 +1,3 @@
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { getOrders } from "@/data/orders/get";
 
 import Orders from "./components/orders";
@@ -8,7 +6,6 @@ const MyOrdersPage = async () => {
   const orders = await getOrders();
   return (
     <>
-      <Header />
       <div className="px-5">
         <h2 className="font-semibold text-xl my-3">Meus pedidos</h2>
         <Orders
@@ -28,7 +25,6 @@ const MyOrdersPage = async () => {
           }))}
         />
       </div>
-      <Footer />
     </>
   );
 };
